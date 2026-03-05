@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kpfu.itis.shakirov.model.User;
 
 import java.util.List;
 
@@ -21,12 +20,12 @@ public class UserRepository {
 
     @Transactional(readOnly = true)
     public List<User> findAll() {
-        Session session;
         try {
-            session = sessionFactory.getCurrentSession();
+            Session session = sessionFactory.getCurrentSession();
+            return session.createQuery("SELECT u FROM User u", User.class)
+                    .getResultList();
         } catch (HibernateException e) {
-            session = sessionFactory.openSession();
+            throw new RuntimeException("Failed to get users", e);
         }
-        return session.createQuery("from User").list();
     }
 }
