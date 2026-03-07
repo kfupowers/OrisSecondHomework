@@ -7,6 +7,7 @@ group = "org.example"
 version = "1.0-SNAPSHOT"
 
 val springVersion: String by project
+val springDataVersion: String by project
 val jakartaVersion: String by project
 val hibernateVersion: String by project
 val postgresVersion: String by project
@@ -22,6 +23,7 @@ dependencies {
     implementation("org.springframework:spring-jdbc:$springVersion")
     implementation("org.springframework:spring-orm:$springVersion")
     implementation("org.springframework:spring-context-support:$springVersion")
+    implementation("org.springframework.data:spring-data-jpa:$springDataVersion")
     implementation("jakarta.servlet:jakarta.servlet-api:$jakartaVersion")
     implementation("org.hibernate.orm:hibernate-core:$hibernateVersion")
     implementation("org.postgresql:postgresql:$postgresVersion")
@@ -30,6 +32,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:$hikariVersion")
 
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.3")
+    implementation("org.slf4j:slf4j-simple:2.0.17")
 }
 
 tasks.test {
