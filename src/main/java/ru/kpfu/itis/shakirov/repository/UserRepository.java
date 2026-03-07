@@ -1,5 +1,10 @@
 package ru.kpfu.itis.shakirov.repository;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import ru.kpfu.itis.shakirov.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -8,24 +13,20 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class UserRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findAll();
 
-    private final SessionFactory sessionFactory;
+    User save(User user);
 
-    public UserRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    Optional<User> findById(Long id);
 
-    @Transactional(readOnly = true)
-    public List<User> findAll() {
-        try {
-            Session session = sessionFactory.getCurrentSession();
-            return session.createQuery("SELECT u FROM User u", User.class)
-                    .getResultList();
-        } catch (HibernateException e) {
-            throw new RuntimeException("Failed to get users", e);
-        }
-    }
+    void deleteById(Long id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE User u SET u.username = :username WHERE u.id = :id")
+    int updateUsernameById(@Param("username") String username, @Param("id") Long id);
 }

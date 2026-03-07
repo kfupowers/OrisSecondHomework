@@ -19,6 +19,13 @@ public class User {
     @Column(nullable = false)
     private String username;
 
+    public User() {
+    }
+
+    public User(Long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
 
     public String getUsername() {
         return username;

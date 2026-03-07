@@ -41,6 +41,17 @@ public class UserDto {
         return dto;
     }
 
+    public static User toEntity(UserDto userDto) {
+        if (userDto == null) {
+            return null;
+        }
+
+        User user = new User();
+        userDto.setId(user.getId());
+        userDto.setUsername(user.getUsername());
+        return user;
+    }
+
     @Override
     public String toString() {
         return "User{" +

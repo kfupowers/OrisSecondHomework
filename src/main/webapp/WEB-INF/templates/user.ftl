@@ -1,0 +1,1 @@
+id=${user.id}, username='${user.username}'
