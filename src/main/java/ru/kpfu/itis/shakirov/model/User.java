@@ -22,6 +22,7 @@ public class User {
     @ManyToMany
     @JoinTable(
             name = "user_role",
+            schema = "oris",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )

@@ -27,6 +27,12 @@ dependencies {
     implementation("jakarta.servlet:jakarta.servlet-api:$jakartaVersion")
     implementation("org.hibernate.orm:hibernate-core:$hibernateVersion")
     implementation("org.postgresql:postgresql:$postgresVersion")
+    implementation("org.springframework.security:spring-security-core:6.5.3")
+    implementation("org.springframework.security:spring-security-web:6.5.3")
+    implementation("org.springframework.security:spring-security-config:6.5.3")
+    implementation("org.springframework.security:spring-security-taglibs:6.5.3")
+
+
 
     implementation("org.freemarker:freemarker:$freemarkerVersion")
     implementation("com.zaxxer:HikariCP:$hikariVersion")

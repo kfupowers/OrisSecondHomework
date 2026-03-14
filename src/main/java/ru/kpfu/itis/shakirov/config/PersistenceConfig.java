@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -65,6 +66,7 @@ public class PersistenceConfig implements EnvironmentAware {
     }
 
     @Bean
+    @Primary
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager  transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory());

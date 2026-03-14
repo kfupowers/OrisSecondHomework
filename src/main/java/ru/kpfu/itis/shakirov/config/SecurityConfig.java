@@ -19,23 +19,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(
-                User.withUsername("user")
-                        .password(passwordEncoder().encode("password"))
-                        .roles("USER")
-                        .build()
-        );
-        return manager;
-    }
 
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService())
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder())
                 .and().build();
     }
@@ -44,12 +33,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/users/edit/").permitAll()
-                        .requestMatchers("/hello").hasRole("USER")
-                        .requestMatchers("/users").hasRole("ADMIN")
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/register").permitAll()
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/users/add").permitAll()
+                        .requestMatchers("/users").hasRole("USER")
+                        .requestMatchers("/users/update/").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .defaultSuccessUrl("/users", true)
+                        .permitAll())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }

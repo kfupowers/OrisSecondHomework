@@ -1,6 +1,7 @@
 package ru.kpfu.itis.shakirov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,10 @@ public class UserController {
 
     @PostMapping("/add")
     public String addUser(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
+
         UserDto userDto = userService.createUser(username, password);
         model.addAttribute("user", userDto);
-        return "user";
+        return "login_page";
     }
 
     @GetMapping("/edit/{id}")
@@ -47,7 +49,7 @@ public class UserController {
         return "bool";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
     }

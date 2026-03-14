@@ -2,6 +2,7 @@ package ru.kpfu.itis.shakirov.repository;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,19 +21,26 @@ import java.util.function.Function;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    @EntityGraph(attributePaths = "roles")
     List<User> findAll();
 
+    @EntityGraph(attributePaths = "roles")
     User save(User user);
 
+    @EntityGraph(attributePaths = "roles")
     Optional<User> findById(Long id);
+
 
     void deleteById(Long id);
 
+    @EntityGraph(attributePaths = "roles")
     @Modifying
     @Transactional
     @Query("UPDATE User u SET u.username = :username WHERE u.id = :id")
     int updateUsernameById(@Param("username") String username, @Param("id") Long id);
 
+    @EntityGraph(attributePaths = "roles")
     Optional<User> findByUsername(String username);
 
 }

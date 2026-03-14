@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roles", schema = "oris")
 public class Role {
 
     @Id
@@ -15,12 +15,11 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-    )
     private List<User> users;
+
+    public Role() {
+
+    }
 
     public int getId() {
         return id;
@@ -44,5 +43,10 @@ public class Role {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public Role(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 }
