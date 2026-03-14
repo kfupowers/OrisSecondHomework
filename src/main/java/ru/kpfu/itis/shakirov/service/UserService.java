@@ -3,6 +3,7 @@ package ru.kpfu.itis.shakirov.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.shakirov.dto.UserDto;
+import ru.kpfu.itis.shakirov.model.Role;
 import ru.kpfu.itis.shakirov.model.User;
 import ru.kpfu.itis.shakirov.repository.UserRepository;
 import ru.kpfu.itis.shakirov.repository.UserRepositoryHibernate;
@@ -29,8 +30,8 @@ public class UserService {
         return UserDto.fromEntity(userRepository.findById(id).orElse(null));
     }
 
-    public UserDto createUser(String username) {
-        return UserDto.fromEntity(userRepository.save(new User(null, username)));
+    public UserDto createUser(String username, String password) {
+        return UserDto.fromEntity(userRepository.save(new User(null, username, password,))));
     }
 
     public boolean updateUser(Long id, String username) {
