@@ -1,14 +1,18 @@
 package ru.kpfu.itis.shakirov.model;
 
-import javax.annotation.processing.Generated;
-
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users", schema = "oris")
-public class User {
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +23,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private List<Note> notes;
+
+    @ManyToMany(fetch = FetchType.EAGER) // важно для загрузки ролей при аутентификации
     @JoinTable(
             name = "user_role",
             schema = "oris",
@@ -38,6 +45,7 @@ public class User {
         this.roles = roles;
     }
 
+    // ---------- Геттеры и сеттеры ----------
     public Long getId() {
         return id;
     }
@@ -68,5 +76,40 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

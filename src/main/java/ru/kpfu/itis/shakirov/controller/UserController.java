@@ -31,7 +31,7 @@ public class UserController {
 
         UserDto userDto = userService.createUser(username, password);
         model.addAttribute("user", userDto);
-        return "login_page";
+        return "login";
     }
 
     @GetMapping("/edit/{id}")

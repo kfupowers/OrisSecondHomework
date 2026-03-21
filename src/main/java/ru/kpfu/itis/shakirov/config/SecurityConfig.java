@@ -39,11 +39,18 @@ public class SecurityConfig {
                         .requestMatchers("/users/add").permitAll()
                         .requestMatchers("/users").hasRole("USER")
                         .requestMatchers("/users/update/").hasRole("ADMIN")
+                        .requestMatchers("/notes/public").permitAll()
+                        .requestMatchers("/notes/**").hasRole("USER")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/users", true)
-                        .permitAll())
+                        .failureUrl("/login?error")
+                        .permitAll()
+                )
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }

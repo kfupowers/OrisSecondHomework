@@ -10,7 +10,6 @@ import ru.kpfu.itis.shakirov.dto.UserDto;
 import ru.kpfu.itis.shakirov.model.Role;
 import ru.kpfu.itis.shakirov.model.User;
 import ru.kpfu.itis.shakirov.repository.UserRepository;
-import ru.kpfu.itis.shakirov.repository.UserRepositoryHibernate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +17,11 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final UserRepositoryHibernate userRepositoryHibernate;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepositoryHibernate userRepositoryHibernate, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepositoryHibernate = userRepositoryHibernate;
+    public UserService( UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
