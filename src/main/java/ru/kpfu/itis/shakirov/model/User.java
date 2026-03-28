@@ -20,13 +20,22 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private String verificationCode;
+
+    @Column(nullable = false)
+    private boolean verified = false;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Note> notes;
 
-    @ManyToMany(fetch = FetchType.EAGER) // важно для загрузки ролей при аутентификации
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             schema = "oris",
@@ -38,14 +47,62 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String username, String password, List<Role> roles) {
+    public User(Long id, String username, String email, String password, List<Role> roles) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.password = password;
         this.roles = roles;
     }
 
-    // ---------- Геттеры и сеттеры ----------
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return verified;
+    }
+
+
+
     public Long getId() {
         return id;
     }
@@ -91,25 +148,5 @@ public class User implements UserDetails {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }

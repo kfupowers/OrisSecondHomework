@@ -6,8 +6,13 @@
 <body>
 <h1>Вход в систему</h1>
 
+
 <#if RequestParameters.error??>
     <p style="color:red;">Неверное имя пользователя или пароль</p>
+</#if>
+
+<#if message??>
+    ${message}
 </#if>
 
 <form action="/login" method="post">
@@ -25,3 +30,4 @@
 
 <p>Нет аккаунта? <a href="/register">Зарегистрируйтесь</a></p>
 </body>
+</html>

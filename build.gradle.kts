@@ -1,6 +1,8 @@
 plugins {
     id("java")
     id("war")
+    id("org.springframework.boot") version "3.4.4"
+    id("io.spring.dependency-management") version "1.0.9.RELEASE"
 }
 
 group = "org.example"
@@ -9,36 +11,24 @@ version = "1.0-SNAPSHOT"
 val springVersion: String by project
 val springDataVersion: String by project
 val jakartaVersion: String by project
-val hibernateVersion: String by project
+//val hibernateVersion: String by project
 val postgresVersion: String by project
-val freemarkerVersion: String by project
-val hikariVersion: String by project
+//val freemarkerVersion: String by project
+//val hikariVersion: String by project
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.springframework:spring-webmvc:$springVersion")
-    implementation("org.springframework:spring-jdbc:$springVersion")
-    implementation("org.springframework:spring-orm:$springVersion")
-    implementation("org.springframework:spring-context-support:$springVersion")
-    implementation("org.springframework.data:spring-data-jpa:$springDataVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("jakarta.servlet:jakarta.servlet-api:$jakartaVersion")
-    implementation("org.hibernate.orm:hibernate-core:$hibernateVersion")
     implementation("org.postgresql:postgresql:$postgresVersion")
-    implementation("org.springframework.security:spring-security-core:6.5.3")
-    implementation("org.springframework.security:spring-security-web:6.5.3")
-    implementation("org.springframework.security:spring-security-config:6.5.3")
-    implementation("org.springframework.security:spring-security-taglibs:6.5.3")
-
-
-
-    implementation("org.freemarker:freemarker:$freemarkerVersion")
-    implementation("com.zaxxer:HikariCP:$hikariVersion")
-
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.3")
-    implementation("org.slf4j:slf4j-simple:2.0.17")
+    implementation("org.springframework.security:spring-security-taglibs")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-freemarker")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 }
 
 tasks.test {

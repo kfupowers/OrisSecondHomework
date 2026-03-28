@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/register").permitAll()
+                        .requestMatchers("/verification").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/users/add").permitAll()
                         .requestMatchers("/users").hasRole("USER")
@@ -50,8 +51,7 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/users", true)
                         .failureUrl("/login?error")
                         .permitAll()
-                )
-                .httpBasic(Customizer.withDefaults());
+                );
         return http.build();
     }
 
@@ -67,4 +67,5 @@ public class SecurityConfig {
                 .ignoring()
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico");
     }
+
 }

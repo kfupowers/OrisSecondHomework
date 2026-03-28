@@ -1,0 +1,48 @@
+server:
+  port:8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: teamwork.tf
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+  liquibase:
+    enabled: false
+
+  freemarker:
+    enabled: true
+    suffix: .ftl
+    template-loader-path: /WEB-INF/templates
+
+  mail:
+    host: smtp.gmail.com
+    username: "ramilpowers@gmail.com "
+    password: "xxxx xxxx xxxx xxxx"
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectionTimeout: 5000
+          timeout: 5000
+          writeTimeout: 5000
+          starttls:
+            enable: true
+
+mail:
+  base-url: http://localhost:8080
+  sender: Test Application
+  from: "${spring.mail.username}"
+  subject: Please verify your account
+  content: "Dear ${name}, please follow the link below to verify your account: <a href=${url}>VERIFY</a>"
+
+logging:
+  level:
+    root: debug

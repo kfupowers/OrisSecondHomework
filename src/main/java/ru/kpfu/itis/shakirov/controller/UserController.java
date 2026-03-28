@@ -27,9 +27,9 @@ public class UserController {
 
 
     @PostMapping("/add")
-    public String addUser(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
+    public String addUser(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email, Model model) {
 
-        UserDto userDto = userService.createUser(username, password);
+        UserDto userDto = userService.createUser(username, email, password);
         model.addAttribute("user", userDto);
         return "login";
     }
