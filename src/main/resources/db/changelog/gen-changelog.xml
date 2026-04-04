@@ -1,0 +1,100 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Ra (generated)" id="1775288560586-1">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" startWith="4" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="roles_id_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Ra (generated)" id="1775288560586-2">
+        <createTable tableName="accounts">
+            <column autoIncrement="true" name="id" startWith="15" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="accounts_id_pk"/>
+            </column>
+            <column name="login" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastname" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photo_path" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Ra (generated)" id="1775288560586-3">
+        <createTable tableName="reservations">
+            <column name="book_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="reservations_pk"/>
+            </column>
+            <column name="account_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="reservations_pk"/>
+            </column>
+            <column defaultValueComputed="CURRENT_DATE" name="reservation_date" type="date">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="reservations_pk"/>
+            </column>
+            <column name="receive_date" type="date"/>
+            <column name="planned_return_date" type="date"/>
+            <column name="return_date" type="date"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Ra (generated)" id="1775288560586-4">
+        <createTable tableName="books">
+            <column autoIncrement="true" name="id" startWith="25" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="book_id_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(5000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photo_path" type="VARCHAR(300)"/>
+            <column defaultValueNumeric="0" name="book_count" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="published" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Ra (generated)" id="1775288560586-5">
+        <addUniqueConstraint columnNames="login" constraintName="login_uk" tableName="accounts"/>
+    </changeSet>
+    <changeSet author="Ra (generated)" id="1775288560586-6">
+        <createTable tableName="reviews">
+            <column name="book_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="review_pk"/>
+            </column>
+            <column name="account_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="review_pk"/>
+            </column>
+            <column name="rating" type="INTEGER"/>
+            <column name="description" type="VARCHAR(1000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Ra (generated)" id="1775288560586-7">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="reservations" constraintName="account_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="accounts" validate="true"/>
+    </changeSet>
+    <changeSet author="Ra (generated)" id="1775288560586-8">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="reviews" constraintName="account_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="accounts" validate="true"/>
+    </changeSet>
+    <changeSet author="Ra (generated)" id="1775288560586-9">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="reservations" constraintName="book_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="books" validate="true"/>
+    </changeSet>
+    <changeSet author="Ra (generated)" id="1775288560586-10">
+        <addForeignKeyConstraint baseColumnNames="role" baseTableName="accounts" constraintName="role_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
