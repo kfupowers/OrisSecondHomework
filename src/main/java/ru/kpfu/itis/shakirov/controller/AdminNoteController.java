@@ -2,6 +2,8 @@ package ru.kpfu.itis.shakirov.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import ru.kpfu.itis.shakirov.aop.annotation.Benchmark;
+import ru.kpfu.itis.shakirov.aop.annotation.Metric;
 import ru.kpfu.itis.shakirov.model.Note;
 import ru.kpfu.itis.shakirov.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ public class AdminNoteController {
     @Autowired
     private NoteRepository noteRepository;
 
+    @Metric
+    @Benchmark
     @GetMapping
     public String getAllNotes(Model model) {
         List<Note> notes = noteRepository.findAll();
@@ -23,6 +27,8 @@ public class AdminNoteController {
         return "notes";
     }
 
+    @Metric
+    @Benchmark
     @DeleteMapping("/{id}")
     public String deleteNote(@PathVariable("id") Long id, Model model) {
         noteRepository.deleteById(id);

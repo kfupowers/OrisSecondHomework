@@ -7,6 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.kpfu.itis.shakirov.aop.annotation.Benchmark;
+import ru.kpfu.itis.shakirov.aop.annotation.Metric;
 import ru.kpfu.itis.shakirov.dto.UserDto;
 import ru.kpfu.itis.shakirov.service.UserService;
 
@@ -21,6 +23,8 @@ public class RegistrationController {
         this.userService = userService;
     }
 
+    @Metric
+    @Benchmark
     @GetMapping("/register")
     public String showRegistrationForm() {
         return "registration";

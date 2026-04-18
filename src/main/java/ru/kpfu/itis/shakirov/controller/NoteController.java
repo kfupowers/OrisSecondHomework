@@ -1,5 +1,7 @@
 package ru.kpfu.itis.shakirov.controller;
 
+import ru.kpfu.itis.shakirov.aop.annotation.Benchmark;
+import ru.kpfu.itis.shakirov.aop.annotation.Metric;
 import ru.kpfu.itis.shakirov.model.Note;
 import ru.kpfu.itis.shakirov.model.User;
 import ru.kpfu.itis.shakirov.repository.NoteRepository;
@@ -19,6 +21,8 @@ public class NoteController {
     @Autowired
     private NoteRepository noteRepository;
 
+    @Metric
+    @Benchmark
     @GetMapping
     public String myNotes(@AuthenticationPrincipal User currentUser, Model model) {
         List<Note> notes = noteRepository.findByAuthorOrderByCreatedAtDesc(currentUser);
@@ -26,6 +30,8 @@ public class NoteController {
         return "notes";
     }
 
+    @Metric
+    @Benchmark
     @GetMapping("/public")
     public String publicNotes(Model model) {
         List<Note> publicNotes = noteRepository.findByIsPublicTrueOrderByCreatedAtDesc();
@@ -33,12 +39,16 @@ public class NoteController {
         return "public_notes";
     }
 
+    @Metric
+    @Benchmark
     @GetMapping("/create")
     public String createForm(Model model) {
         model.addAttribute("note", new Note());
         return "note_form";
     }
 
+    @Metric
+    @Benchmark
     @PostMapping("/create")
     public String create(@AuthenticationPrincipal User currentUser,
                          @ModelAttribute Note note) {
@@ -49,6 +59,8 @@ public class NoteController {
         return "redirect:/notes";
     }
 
+    @Metric
+    @Benchmark
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") Long id,
                            @AuthenticationPrincipal User currentUser,
@@ -61,6 +73,8 @@ public class NoteController {
         return "note_form";
     }
 
+    @Metric
+    @Benchmark
     @PostMapping("/{id}/edit")
     public String update(@PathVariable("id") Long id,
                          @AuthenticationPrincipal User currentUser,
@@ -76,6 +90,8 @@ public class NoteController {
         return "redirect:/notes";
     }
 
+    @Metric
+    @Benchmark
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") Long id,
                          @AuthenticationPrincipal User currentUser) {
