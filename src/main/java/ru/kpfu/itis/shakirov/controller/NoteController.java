@@ -2,6 +2,7 @@ package ru.kpfu.itis.shakirov.controller;
 
 import ru.kpfu.itis.shakirov.aop.annotation.Benchmark;
 import ru.kpfu.itis.shakirov.aop.annotation.Metric;
+import ru.kpfu.itis.shakirov.dto.NoteNotificationDto;
 import ru.kpfu.itis.shakirov.model.Note;
 import ru.kpfu.itis.shakirov.model.User;
 import ru.kpfu.itis.shakirov.repository.NoteRepository;
@@ -20,6 +21,9 @@ public class NoteController {
 
     @Autowired
     private NoteRepository noteRepository;
+
+    @Autowired
+    private NoteWebSocketController webSocketController;
 
     @Metric
     @Benchmark
@@ -55,7 +59,17 @@ public class NoteController {
         note.setAuthor(currentUser);
         note.setCreatedAt(LocalDateTime.now());
         note.setPublic(note.isPublic());
-        noteRepository.save(note);
+        Note savedNote = noteRepository.save(note);
+
+        if (savedNote.isPublic()) {
+            NoteNotificationDto dto = new NoteNotificationDto(
+                    savedNote.getId(),
+                    savedNote.getTitle(),
+                    currentUser.getUsername(),
+                    savedNote.getCreatedAt()
+            );
+            webSocketController.notifyAboutNewNote(dto);
+        }
         return "redirect:/notes";
     }
 
@@ -72,6 +86,8 @@ public class NoteController {
         model.addAttribute("note", note);
         return "note_form";
     }
+
+
 
     @Metric
     @Benchmark

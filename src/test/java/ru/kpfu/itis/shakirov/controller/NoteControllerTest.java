@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.kpfu.itis.shakirov.model.Note;
+import ru.kpfu.itis.shakirov.model.Role;
 import ru.kpfu.itis.shakirov.model.User;
 import ru.kpfu.itis.shakirov.repository.NoteRepository;
 
@@ -33,6 +34,9 @@ class NoteControllerTest {
     @MockitoBean
     private NoteRepository noteRepository;
 
+    @MockitoBean
+    private NoteWebSocketController webSocketController;
+
     private User testUser;
     private Authentication authentication;
 
@@ -42,7 +46,11 @@ class NoteControllerTest {
         testUser.setId(1L);
         testUser.setUsername("testuser");
 
-        authentication = new UsernamePasswordAuthenticationToken(testUser, null, List.of());
+        Role userRole = new Role(1, "USER");
+        testUser.setRoles(List.of(userRole));
+        authentication = new UsernamePasswordAuthenticationToken(
+                testUser, null, testUser.getAuthorities()
+        );
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
@@ -125,8 +133,12 @@ class NoteControllerTest {
         noteToCreate.setContent("Content");
         noteToCreate.setPublic(true);
 
+        when(noteRepository.save(any(Note.class))).thenReturn(noteToCreate);
+
         mockMvc.perform(post("/notes/create")
-                        .flashAttr("note", noteToCreate)
+                        .param("title", "Title")
+                        .param("content", "Content")
+                        .param("isPublic", "true")
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/notes"));
