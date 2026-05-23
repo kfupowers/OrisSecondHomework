@@ -44,6 +44,3 @@ mail:
   subject: Please verify your account
   content: "Dear ${name}, please follow the link below to verify your account: <a href=${url}>VERIFY</a>"
 
-logging:
-  level:
-    root: debug

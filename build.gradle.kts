@@ -32,7 +32,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-freemarker")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-aop")
-
+    implementation("org.springframework.boot:spring-boot-starter-websocket")
+    implementation("org.webjars:stomp-websocket:2.3.4")
+    implementation("org.webjars:sockjs-client:1.5.1")
+    implementation("org.webjars:webjars-locator-core:0.46")
 
     implementation("org.liquibase:liquibase-core:4.33.0")
     liquibaseRuntime("org.liquibase:liquibase-core:4.33.0")
