@@ -20,11 +20,12 @@ spring:
   freemarker:
     enabled: true
     suffix: .ftl
+    template-loader-path: /WEB-INF/templates
 
   mail:
     host: smtp.gmail.com
-    username: "ramilpowers@gmail.com"
-    password: ""
+    username: "ramilpowers@gmail.com "
+    password: "xxxx xxxx xxxx xxxx"
     port: 587
     properties:
       mail:
@@ -42,3 +43,7 @@ mail:
   from: "${spring.mail.username}"
   subject: Please verify your account
   content: "Dear ${name}, please follow the link below to verify your account: <a href=${url}>VERIFY</a>"
+
+logging:
+  level:
+    root: debug

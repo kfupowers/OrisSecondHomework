@@ -30,11 +30,5 @@
     </ul>
 </#if>
 <a href="/notes/public">Публичные заметки</a>
-
-<script src="/webjars/jquery/jquery.min.js"></script>
-<script src="/webjars/sockjs-client/sockjs.min.js"></script>
-<script src="/webjars/stomp-websocket/stomp.min.js"></script>
-<script src="/websocket.js"></script>
-<div id="notification-area" style="position: fixed; top: 10px; right: 10px; width: 300px; z-index: 9999;"></div>
 </body>
 </html>

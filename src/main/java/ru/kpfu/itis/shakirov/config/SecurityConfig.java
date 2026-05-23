@@ -34,7 +34,6 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/ws-notes/**").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/verification").permitAll()
                         .requestMatchers("/login").permitAll()
